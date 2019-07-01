@@ -39,20 +39,14 @@ public class Tracer {
     }
 
     public Point getNextPoint(int r, int c, Point except) {
-        System.out.println("---------------------");
-        System.out.println(r + " " + c);
-        System.out.println();
         for (int i = r - 1; i < (r + 1); i++) {
             for (int j = c - 1; j < (c + 1); j++) {
-                System.out.println(i + " " + j);
-                System.out.println(getBWComponent(j, i, image));
                 if (j == c - 1) j++;
                 if (image.getRGB(j, i) == Color.BLACK.getRGB() && !new Point(j, i).equals(except)) {
                     return new Point(j, i);
                 }
             }
         }
-        System.out.println("---------------------");
         return null;
     }
 
@@ -112,5 +106,9 @@ public class Tracer {
 
     public void displayTraced() {
         display(traced);
+    }
+
+    public BufferedImage getTraced() {
+        return traced;
     }
 }
