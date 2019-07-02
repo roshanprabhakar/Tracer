@@ -20,4 +20,22 @@ public class Point {
     public int getY() {
         return y;
     }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public double distanceTo(Point other) {
+        double sumX = (x - other.getX()) * (x - other.getX());
+        double sumY = (y - other.getY()) * (y - other.getY());
+        return Math.sqrt(sumX + sumY);
+    }
+
+    public String toString() {
+        return "x: " + x + ", y:" + y;
+    }
 }

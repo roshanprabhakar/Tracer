@@ -7,9 +7,9 @@ public class Tracer {
     private BufferedImage image;
     private BufferedImage traced;
 
-    public Tracer(BufferedImage image) {
+    public Tracer(BufferedImage image, int threshold) {
         this.image = image;
-        this.image = thresholdBWImage(convertToBW(this.image), 200);
+        this.image = Utils.thresholdBWImage(Utils.convertToBW(this.image), threshold);
         traced = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
     }
 
@@ -58,43 +58,6 @@ public class Tracer {
         } catch (ArrayIndexOutOfBoundsException e) {
             return true;
         }
-    }
-
-    private BufferedImage convertToBW(BufferedImage image) {
-        BufferedImage bwImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
-        for (int r = 0; r < image.getHeight(); r++) {
-            for (int c = 0; c < image.getWidth(); c++) {
-                Color pixel = new Color(image.getRGB(c, r));
-                int average = average(new int[]{pixel.getRed(), pixel.getGreen(), pixel.getBlue()});
-                bwImage.setRGB(c, r, new Color(average, average, average).getRGB());
-            }
-        }
-        return bwImage;
-    }
-
-    private int average(int[] list) {
-        int sum = 0;
-        for (int i : list) {
-            sum += i;
-        }
-        return sum / list.length;
-    }
-
-    private BufferedImage thresholdBWImage(BufferedImage image, int threshold) {
-        BufferedImage bwImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
-        for (int r = 0; r < image.getHeight(); r++) {
-            for (int c = 0; c < image.getWidth(); c++) {
-                if (getBWComponent(c, r, image) > threshold) {
-                    bwImage.setRGB(c, r, Color.WHITE.getRGB());
-                }
-                else bwImage.setRGB(c, r, Color.BLACK.getRGB());
-            }
-        }
-        return bwImage;
-    }
-
-    private int getBWComponent(int x, int y, BufferedImage image) {
-        return new Color(image.getRGB(x, y)).getRed();
     }
 
     public static void display(BufferedImage image) {
