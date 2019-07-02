@@ -9,10 +9,14 @@ public class Main {
 	    try {
             BufferedImage image = ImageIO.read(new File("selfie.jpg"));
 
+            //automatically determines threshold value
+            int[][] pixels = Utils.getBWGrid(image);
+            Otsu otsu = new Otsu(pixels);
+
             //finds straight lines
-            Tracer tracer = new Tracer(image, 100);
+            Tracer tracer = new Tracer(image, otsu.getThreshold());
             tracer.trace();
-//            tracer.displayTraced();
+            tracer.displayTraced();
 
             //eliminates color repetition to enforce 1px thick lines
             ColorChangeDetector detector = new ColorChangeDetector(tracer.getTraced());
